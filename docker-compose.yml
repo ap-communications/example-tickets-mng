@@ -5,16 +5,19 @@ services:
     image: ruby:2.7
     build: ./docker/app
     volumes:
-      - ".:/app"
-      - "vendor-bundle:/usr/local/bundle"
+      - '.:/sample-app'
+      - 'vendor-bundle:/usr/local/bundle'
     ports:
-      - "3000:3000"
+      - '3000:3000'
+      - '8081:8081'
     links:
       - db
+      - elasticsearch
     environment:
       RAILS_ENV: development
       BINDING: 0.0.0.0
       BUNDLE_JOBS: 2
+      RUBYOPT: '-W0'
     command:
       - 'tail'
       - '-f'
@@ -23,6 +26,50 @@ services:
     image: mariadb:10
     environment:
       MYSQL_ROOT_PASSWORD: password
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - db
+    environment:
+      PMA_ARBITRARY: '1'
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: password
+    ports:
+      - '3080:80'
+  elasticsearch:
+    build: ./docker/elasticsearch
+    environment:
+      ES_JAVA_OPTS: '-Xms512m -Xmx512m'
+      'cluster.name': 'sample-cluster'
+      'bootstrap.memory_lock': 'true'
+      'discovery.type': 'single-node'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      # nofile:
+      #   soft: 65536
+      #   hard: 65536
+  # logstash:
+  #   image: docker.elastic.co/logstash/logstash:7.6.1
+  #   volumes:
+  #     - './docker/logstash/pipeline:/usr/share/logstash/pipeline'
+  #     # この問題のためここでライブラリを追加 -> https://discuss.elastic.co/t/jdbc-mariadb-works-in-logstash-6-8-but-not-in-logstash-7-5/211261
+  #     # 本来は docker/logstash/pipeline/*.conf の jdbc_driver_library で指定したい
+  #     - './docker/logstash/pipeline/lib/mariadb-java-client.jar:/usr/share/logstash/logstash-core/lib/jars/mariadb-java-client.jar'
+  #   links:
+  #     - db
+  #     - elasticsearch
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.6.1
+    links:
+      - elasticsearch
+    environment:
+      SERVER_NAME: 'localhost:5601'
+      ELASTICSEARCH_HOSTS: 'http://elasticsearch:9200'
+    ports:
+      - '5601:5601'
 volumes:
   vendor-bundle:
     driver: local
