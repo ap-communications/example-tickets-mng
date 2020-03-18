@@ -1,0 +1,34 @@
+```
+# rails new . --database=mysql --skip-test --skip-bundle --skip-sprockets --skip-javascript
+rails new . --database=mysql --skip-test --skip-bundle --skip-javascript
+```
+
+Gemfileに追加
+
+```
+gem 'simpacker'
+```
+
+```
+bundle install
+```
+
+config/database.yml 編集
+
+```
+rails db:create
+```
+
+```
+rails simpacker:install
+```
+
+```
+mv webpack.config.js webpack.config.ts
+```
+
+```
+npm i -D ts-node typescript cross-env
+npm i -D @types/node@12.x @types/webpack @types/webpack-assets-manifest
+npm i -D webpack-dev-server @types/webpack-dev-server
+```
