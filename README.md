@@ -29,3 +29,30 @@ docker-compose exec app npm run build
 # rails アプリ起動
 docker-compose exec app rails s
 ```
+
+## 起動されるアプリURL
+
+- Rails アプリ
+    - http://localhost:3000
+- Kibana
+    - http://localhost:5601
+- PHP MyAdmin
+    - http://localhost:3080
+
+## Logstash使用
+
+このサンプルでは Logstash と elasticsearch-model のつなぎこみができていない。
+
+そのため、Logstashの挙動だけ確認したい場合は下記のようにする。
+
+1. MariaDBクライアントをダウンロードし [docker/logstash/lib/](./docker/logstash/lib/) に置く
+```
+url https://downloads.mariadb.com/Connectors/java/connector-java-2.6.0/mariadb-java-client-2.6.0.jar -o docker/logstash/lib/mariadb-java-client.jar
+```
+2. [docker-compose.yml](./docker-compose.yml) の services.logstash 部分のコメントを外し下記を実行
+```shell
+docker-compose up -d
+```
+
+
+設定ファイルは [docker/logstash/pipeline](./docker/logstash/pipeline) にある
