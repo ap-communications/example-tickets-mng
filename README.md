@@ -45,7 +45,7 @@ docker-compose exec app rails s
 
 そのため、Logstashの挙動だけ確認したい場合は下記のようにする。
 
-1. MariaDBクライアントをダウンロードし [docker/logstash/lib/](./docker/logstash/lib/) に置く
+1. MariaDBクライアントをダウンロードし [docker/logstash/pipeline/lib/](./docker/logstash/pipeline/lib/) に置く
 ```
 url https://downloads.mariadb.com/Connectors/java/connector-java-2.6.0/mariadb-java-client-2.6.0.jar -o docker/logstash/lib/mariadb-java-client.jar
 ```
