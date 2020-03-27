@@ -1,24 +1,31 @@
-# README
+# Rails, ElasticSearchを使ったアプリののサンプル
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 起動方法
 
-Things you may want to cover:
+```shell
+cd (このアプリのディレクトリ)
 
-* Ruby version
+# コンテナビルド・起動
+docker-compose pull
+docker-compose build
+docker-compose up -d
 
-* System dependencies
+# up 完了後、DB等が起動するまで数分かかる
 
-* Configuration
+# モジュール類インストール
+docker-compose exec app bundle install
+docker-compose exec app npm install
 
-* Database creation
+# DBスキーマ作成、データ投入、最初のIndex作成
+docker-compose exec app rails db:create
+docker-compose exec app rails db:migrate
+docker-compose exec app rails db:seed
 
-* Database initialization
+# js関連ビルド
+docker-compose exec app npm run build
+# jsデバッグ時は別コンソールでこちらを使う
+# docker-compose exec app npm run dev
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# rails アプリ起動
+docker-compose exec app rails s
+```
