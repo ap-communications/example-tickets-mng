@@ -1,0 +1,14 @@
+.search-box {
+  margin: 5px;
+}
+
+.input {
+  float: left;
+  height: 30px;
+  width: 200px;
+}
+
+.button {
+  width: 100px;
+  height: 30px;
+}

@@ -1,6 +1,5 @@
 import path from "path";
 import type { Configuration } from "webpack";
-import { ProvidePlugin } from "webpack";
 import WebpackAssetsManifest from "webpack-assets-manifest";
 import glob from "glob";
 
@@ -27,7 +26,6 @@ const config: Configuration = {
   },
   plugins: [
     new WebpackAssetsManifest({ publicPath: true, writeToDisk: true }),
-    new ProvidePlugin({ $: "jquery", jQuery: "jquery"}),
   ],
   module: {
     rules: [
@@ -44,7 +42,11 @@ const config: Configuration = {
     publicPath: "/packs/",
     headers: {
       "Access-Control-Allow-Origin": "*"
-    }
+    },
+    watchOptions: {
+      poll: 2000,
+      ignored: /node_modules/
+    },
   }
 };
 

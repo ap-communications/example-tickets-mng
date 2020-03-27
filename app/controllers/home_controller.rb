@@ -10,9 +10,10 @@ class HomeController < ApplicationController
   end
 
   def search
-    @issues = if @search_word.present?
+    search_word = params[:search_word]
+    @issues = if search_word.present?
                 # Issue.es_search(@search_word).map {|r| r['_source'] }
-                Issue.fulltext_search(@search_word).records
+                Issue.fulltext_search(search_word).records
               else
                 Issue.all
               end
