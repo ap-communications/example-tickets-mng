@@ -5,7 +5,7 @@
     "dev": "cross-env TS_NODE_PROJECT=\"tsconfig-for-webpack-config.json\" webpack-dev-server"
   },
   "dependencies": {
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "w2ui": "^1.4.3"
   },
   "devDependencies": {
